@@ -1,0 +1,15 @@
+# Core dependencies for large dataset retrieval
+aiohttp>=3.9.0
+asyncio>=3.4.3
+
+# Optional: For enhanced monitoring
+psutil>=5.9.0
+
+# Optional: For CSV output
+# pandas>=2.0.0
+
+# Optional: For retry logic (alternative to built-in)
+# tenacity>=8.2.0
+
+# Optional: For progress bars
+# tqdm>=4.65.0
