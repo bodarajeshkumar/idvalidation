@@ -1,0 +1,10 @@
+# Backup files created by deployment script
+*.bak
+
+# Local environment files
+.env.local
+
+# Temporary files
+*.tmp
+*.swp
+*~

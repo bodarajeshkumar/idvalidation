@@ -1,0 +1,41 @@
+# Exclude node_modules from binary builds
+frontend/node_modules
+node_modules
+
+# Exclude build artifacts
+frontend/build
+build
+
+# Exclude git files
+.git
+.gitignore
+
+# Exclude documentation
+docs
+
+# Exclude output and checkpoint data
+output
+retrieval_checkpoint.json
+retrieval_history.json
+
+# Exclude environment files
+.env
+frontend/.env
+
+# Exclude Python cache
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Exclude IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Exclude OS files
+.DS_Store
+Thumbs.db

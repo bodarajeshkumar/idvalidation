@@ -20,7 +20,16 @@ from api_client import APIConfig
 from orchestrator import DataOrchestrator
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+# Enable CORS for all origins (OpenShift routes)
+CORS(app, resources={
+    r"/api/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["Content-Type"],
+        "supports_credentials": False
+    }
+})
 
 # Global state management
 retrieval_state = {
@@ -102,7 +111,23 @@ def save_to_history(start_date, end_date, stats, status):
 
 
 def load_env_config():
-    """Load configuration from .env file"""
+    """Load configuration from environment variables or .env file"""
+    import os
+    
+    # Try to get from environment variables first (for OpenShift/containers)
+    api_base_url = os.getenv('API_BASE_URL')
+    api_key = os.getenv('API_KEY')
+    api_password = os.getenv('API_PASSWORD')
+    
+    if api_base_url and api_key and api_password:
+        # Running in container with env vars
+        return {
+            'API_BASE_URL': api_base_url,
+            'API_KEY': api_key,
+            'API_PASSWORD': api_password
+        }
+    
+    # Fall back to .env file for local development
     env_vars = {}
     env_path = Path(__file__).parent.parent / '.env'
     
@@ -114,7 +139,7 @@ def load_env_config():
                     key, value = line.split('=', 1)
                     env_vars[key] = value
     except FileNotFoundError:
-        raise Exception(".env file not found!")
+        raise Exception("Configuration not found! Set API_BASE_URL, API_KEY, and API_PASSWORD environment variables or create .env file")
     
     return env_vars
 

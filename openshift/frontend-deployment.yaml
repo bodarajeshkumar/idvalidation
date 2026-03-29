@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: data-retrieval
+    component: frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: data-retrieval
+      component: frontend
+  template:
+    metadata:
+      labels:
+        app: data-retrieval
+        component: frontend
+    spec:
+      containers:
+      - name: frontend
+        image: image-registry.openshift-image-registry.svc:5000/data-retrieval/frontend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        env:
+        - name: REACT_APP_API_URL
+          value: "https://backend-route-data-retrieval.apps.dataextractor.cp.fyre.ibm.com"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+
+# Made with Bob

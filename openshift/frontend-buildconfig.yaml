@@ -1,0 +1,22 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: frontend
+  labels:
+    app: data-retrieval
+    component: frontend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: frontend:latest
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: openshift/frontend.Dockerfile
+  triggers: []
+
+# Made with Bob

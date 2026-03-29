@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: data-retrieval
+    component: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-retrieval
+      component: backend
+  template:
+    metadata:
+      labels:
+        app: data-retrieval
+        component: backend
+    spec:
+      containers:
+      - name: backend
+        image: image-registry.openshift-image-registry.svc:5000/data-retrieval/backend:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+          protocol: TCP
+        env:
+        - name: API_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: cloudant-credentials
+              key: api-base-url
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: cloudant-credentials
+              key: api-key
+        - name: API_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cloudant-credentials
+              key: api-password
+        - name: FLASK_APP
+          value: "backend/app.py"
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          httpGet:
+            path: /api/health
+            port: 5001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /api/health
+            port: 5001
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: output-data
+          mountPath: /app/output
+        - name: checkpoint-data
+          mountPath: /app/checkpoint
+      volumes:
+      - name: output-data
+        emptyDir: {}
+      - name: checkpoint-data
+        emptyDir: {}
+
+# Made with Bob

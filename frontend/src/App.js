@@ -17,7 +17,7 @@ import { Renew, CheckmarkFilled, ErrorFilled, InProgress, StopFilled } from '@ca
 import axios from 'axios';
 import './App.scss';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+const API_BASE_URL = window.RUNTIME_CONFIG?.API_URL || process.env.REACT_APP_API_URL || 'http://localhost:5001';
 
 function App() {
   const [startDate, setStartDate] = useState('01/01/2023');

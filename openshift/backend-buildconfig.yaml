@@ -1,0 +1,22 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: backend
+  labels:
+    app: data-retrieval
+    component: backend
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: backend:latest
+  source:
+    type: Binary
+    binary: {}
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: openshift/backend.Dockerfile
+  triggers: []
+
+# Made with Bob
