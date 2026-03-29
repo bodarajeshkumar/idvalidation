@@ -11,12 +11,18 @@ spec:
       kind: ImageStreamTag
       name: backend:latest
   source:
-    type: Binary
-    binary: {}
+    type: Git
+    git:
+      uri: https://github.com/bodarajeshkumar/idvalidation
+      ref: master
   strategy:
     type: Docker
     dockerStrategy:
       dockerfilePath: openshift/backend.Dockerfile
-  triggers: []
+  triggers:
+    - type: ConfigChange
+    - type: GitHub
+      github:
+        secret: github-webhook-secret
 
 # Made with Bob

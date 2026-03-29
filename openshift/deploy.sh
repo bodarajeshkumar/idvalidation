@@ -104,10 +104,10 @@ oc apply -f openshift/frontend-buildconfig.yaml
 print_info "BuildConfigs created successfully"
 echo ""
 
-# Build backend image
-print_info "Building backend image..."
+# Build backend image from GitHub
+print_info "Building backend image from GitHub..."
 print_info "This may take a few minutes..."
-oc start-build backend --from-dir=. --follow --build-loglevel=5
+oc start-build backend --follow --build-loglevel=5
 if [ $? -eq 0 ]; then
     print_info "Backend image built successfully"
 else
@@ -116,10 +116,10 @@ else
 fi
 echo ""
 
-# Build frontend image
-print_info "Building frontend image..."
+# Build frontend image from GitHub
+print_info "Building frontend image from GitHub..."
 print_info "This may take several minutes (building React app)..."
-oc start-build frontend --from-dir=. --follow --build-loglevel=5
+oc start-build frontend --follow --build-loglevel=5
 if [ $? -eq 0 ]; then
     print_info "Frontend image built successfully"
 else
