@@ -5,6 +5,8 @@ metadata:
   labels:
     app: data-retrieval
     component: backend
+  annotations:
+    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"backend:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"backend\")].image"}]'
 spec:
   replicas: 1
   selector:

@@ -12,7 +12,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Configuration
-PROJECT_NAME="${OPENSHIFT_PROJECT:-data-retrieval}"
+PROJECT_NAME="${OPENSHIFT_PROJECT:-data-retrieval2}"
 REGISTRY="image-registry.openshift-image-registry.svc:5000"
 
 echo -e "${GREEN}========================================${NC}"

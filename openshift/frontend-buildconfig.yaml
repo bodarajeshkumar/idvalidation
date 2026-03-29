@@ -14,7 +14,7 @@ spec:
     type: Git
     git:
       uri: https://github.com/bodarajeshkumar/idvalidation
-      ref: master
+      ref: main
   strategy:
     type: Docker
     dockerStrategy:
